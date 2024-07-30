@@ -1,0 +1,18 @@
+// proto file style guide에 따라 파일명, field명, 패키지명은 snake_case
+// 메세지 명은 PascalCase로 작성한다.
+// @See https://protobuf.dev/programming-guides/style/#message-field-names
+syntax = "proto3";
+
+package normal_admin_token_verify_proto;
+
+service NormalAdminTokenVerifyService {
+  rpc verifyNormalAdminToken(getTokenVerifyRequest) returns (getTokenVerifyResponse) {}
+}
+
+message getTokenVerifyRequest {
+    string token = 1;
+}
+
+message getTokenVerifyResponse {
+    string user_id = 1;
+}

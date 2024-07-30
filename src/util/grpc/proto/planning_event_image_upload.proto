@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package planning_event_image_upload_proto;
+
+service UploadPlanningEventImageService {
+    rpc uploadPlanningEventImage(uploadPlanningEventImageRequest) returns (uploadPlanningEventImageResponse) {}
+}
+
+message uploadPlanningEventImageRequest {
+    string id = 1;
+}
+
+message uploadPlanningEventImageResponse {
+}
+
