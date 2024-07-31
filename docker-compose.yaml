@@ -1,0 +1,63 @@
+version: '3'
+services:
+  # api server
+  server:
+    image: market-server
+    build:
+      context: './'
+      dockerfile: Dockerfile.local
+    container_name: market-server
+    restart: 'no'
+    environment:
+      PORT: 3000
+      API_DOC_PATH: api/docs
+      POSTGRES_URL: postgres://root:root@market-server-db:5432/local
+      NODE_ENV: local
+      KAFKA_BROKER_URL: kafka-0:9092,kafka-1:9093,kafka-2:9094
+      MSK_USERNAME: local
+      MSK_PASSWORD: local
+      UCC_WEB_URL: local
+      JWT_ACCESS_SECRET: hi
+      AUTH_SERVER_ENDPOINT: https://gateway-server-new.dev-twin.world/auth/
+      ADMIN_WEB_URL: https://admin.dev-twin.world
+      PAYMENT_SERVER_API_ENDPOINT: https://api.iamport.kr
+      PAYMENT_SERVER_API_KEY: 1774246847660884
+      PAYMENT_SERVER_API_SECRET: pBMXnF0biHPess8g6XoDQjEZXc8v5sOGjxLMPfvVL6Jh7npmVB5i8I8UNTTcsNP0ZD8R3WrQ6odMzaUY
+      DOWNLOAD_LINK: https://gateway-server-new.dev-twin.world/media-download/
+      BASE_DIR_PATH: /data
+      MEDIA_FILE_UPLOAD_SERVER_GRPC_ENDPOINT: media-file-upload-service:50003
+      ADMIN_SERVER_GRPC_ENDPOINT: admin-server-service:50003
+      MEDIA_MANAGEMENT_SERVER_GRPC_ENDPOINT: media-management:50003
+    ports:
+      - '3000:3000'
+    volumes:
+      - './:/usr/src/app:z'
+      - '/tmp/market-server/yarn-cache/:/usr/local/share/.cache/yarn/v6:z'
+
+  # db
+  db:
+    container_name: market-server-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: local
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  # liquibase
+  liquibase:
+    image: liquibase/liquibase:4.23
+    container_name: market-liquibase
+    volumes:
+      - ./migrations/liquibase/changelog:/liquibase/changelog
+    depends_on:
+      - db
+    command: --defaults-file=/liquibase/changelog/liquibase.properties update
+    restart: 'no'
+
+volumes:
+  db_data:

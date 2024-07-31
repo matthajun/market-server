@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package get_media_detail_proto;
+
+service GetMediaDetailService {
+  rpc getMediaDetail(getMediaDetailRequest) returns (getMediaDetailResponse) {}
+}
+
+message getMediaDetailRequest {
+  string media_id = 1;
+}
+
+message getMediaDetailResponse {
+  string media_id = 1;
+  string uploader_id = 2;
+}
