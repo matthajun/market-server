@@ -3,7 +3,12 @@ import { CartReadModel } from '@src/cart/domain/read-models/cart.read-model';
 import { CartReadModelEntity } from '../entities/cart-read-model.entity';
 
 export class CartReadModelMapper {
-  static toPersistent(cart: Cart) {
+  /**
+   * 영속화를 위한 엔티티로 타입 변환
+   * @param cart
+   * @returns
+   */
+  static toPersistent(cart: Cart): CartReadModelEntity {
     const entity = new CartReadModelEntity();
     entity.id = cart.id;
 
@@ -30,6 +35,11 @@ export class CartReadModelMapper {
     return entity;
   }
 
+  /**
+   * readModel 로 return 하기 위한 타입 변환
+   * @param entity
+   * @returns
+   */
   static toDomain(entity: CartReadModelEntity): CartReadModel {
     const domain = new CartReadModel();
 

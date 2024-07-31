@@ -3,7 +3,7 @@ import * as winston from 'winston';
 
 export const winstonLogger = WinstonModule.createLogger({
   transports: [
-    // console에 print되는 내용
+    // print at console
     new winston.transports.Console({
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       format: winston.format.combine(
