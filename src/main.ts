@@ -45,24 +45,22 @@ async function bootstrap() {
   // #1 Set global prefix to swagger
   if (NODE_ENV === NodeEnv.DEVELOP) {
     app.setGlobalPrefix('market');
+    const API_DOC_PATH = configService.getOrThrow<string>('API_DOC_PATH');
+    const swaggerConfig = new DocumentBuilder()
+        .addSecurity('bearer', {
+          type: 'http',
+          scheme: 'bearer',
+        })
+        .setTitle('market server')
+        .setDescription('market server API description')
+        .setVersion('0.1')
+        .build();
+    const document = SwaggerModule.createDocument(app, swaggerConfig);
+    SwaggerModule.setup(API_DOC_PATH, app, document);
+
+    // #2 Clear global prefix if dev env to open server
+    app.setGlobalPrefix('');
   }
-
-  const API_DOC_PATH = configService.getOrThrow<string>('API_DOC_PATH');
-
-  const swaggerConfig = new DocumentBuilder()
-    .addSecurity('bearer', {
-      type: 'http',
-      scheme: 'bearer',
-    })
-    .setTitle('market server')
-    .setDescription('market server API description')
-    .setVersion('0.1')
-    .build();
-  const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup(API_DOC_PATH, app, document);
-
-  // #2 Clear global prefix if dev env to open server
-  app.setGlobalPrefix('');
 
   const SERVER_PORT = configService.getOrThrow<string>('PORT');
   await app.listen(SERVER_PORT);
