@@ -43,7 +43,7 @@ export class PurchaseCommandHandler
         order.impUid = impUid;
 
         // 결제 서버 사후 검증
-        // await this.paymentExternalService.validateOrder(order);
+        await this.paymentExternalService.validateOrder(order);
       }
 
       // 결제 히스토리 생성 및 저장

@@ -3,7 +3,7 @@ import { join } from 'path';
 import { ClientOptions, Transport } from '@nestjs/microservices';
 
 /**
- * admin-server에 토큰을 검증하기 위한 gRPC 옵션
+ * admin-server 에 토큰을 검증하기 위한 gRPC 옵션
  * @description Get gRPC client options
  *   package: grpc 통신할 때 사용할 proto 파일의 package 이름
  *   url: gRPC 서버의 주소 (웹서버와 다른 포트로 열어야 함)
