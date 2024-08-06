@@ -28,7 +28,6 @@ import { ProductLikeEntity } from '@src/product-like/infra/persistence/entities/
 import { ProductDownloadHistoryEntity } from '@src/product/infra/persistence/entities/product-download-history.entity';
 import { SalesHistoryReadModelEntity } from '@src/order/infra/persistence/orm/entities/sales-history-read-model.entity';
 import {
-  getGrpcPlanningEventImageUploadClientOptions,
   getMediaDetailGrpcClientOption,
   getVerifyNormalAdminTokenGrpcClientOptions,
 } from '@src/configs/grpc.config';
@@ -61,7 +60,7 @@ import {
       inject: [databaseConfig.KEY],
     }),
     ConfigModule.forRoot({
-      envFilePath: ['.env.local', '.env.stag', '.env.dev', '.env'],
+      envFilePath: ['.env.local', '.env'],
       validationSchema: Joi.object({
         PORT: Joi.string().required(),
         API_DOC_PATH: Joi.string().required(),
@@ -78,11 +77,6 @@ import {
 
         // auth
         JWT_ACCESS_SECRET: Joi.string().required(),
-
-        // kafka
-        MSK_USERNAME: Joi.string().required(),
-        MSK_PASSWORD: Joi.string().required(),
-        KAFKA_BROKER_URL: Joi.string().required(),
 
         // connect to other server
         AUTH_SERVER_ENDPOINT: Joi.string().required(),
@@ -104,10 +98,6 @@ import {
     }),
     ClientsModule.register({
       clients: [
-        {
-          name: 'planning-event-image-upload-client-grpc',
-          ...getGrpcPlanningEventImageUploadClientOptions(),
-        },
         {
           name: 'normal-admin-token-verify-client-grpc',
           ...getVerifyNormalAdminTokenGrpcClientOptions(),

@@ -30,7 +30,7 @@ export class CreateProductsService {
     const { mediaId, userId, name, price } = command;
 
     //TODO: sellerThumbnailImageId 값을 auth에 profile 조회를 요청하여 받아와야 함
-    //TODO: 유저 프로필 변경 이벤트(AUTH.UPDATE_PROFILE)발행 시 sellerThumbnailImageId을 업데이트하는 로직이 필요 함 (BackLog, TW-1958)
+    //TODO: 유저 프로필 변경 이벤트(AUTH.UPDATE_PROFILE)발행 시 sellerThumbnailImageId을 업데이트하는 로직이 필요 함
     const sellerThumbnailImageId = '6476d7b7786b05cdb7ba6e79';
 
     try {
