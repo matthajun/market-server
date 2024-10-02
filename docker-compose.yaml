@@ -13,9 +13,6 @@ services:
       API_DOC_PATH: api/docs
       POSTGRES_URL: postgres://root:root@market-server-db:5432/local
       NODE_ENV: local
-      KAFKA_BROKER_URL: kafka-0:9092,kafka-1:9093,kafka-2:9094
-      MSK_USERNAME: local
-      MSK_PASSWORD: local
       UCC_WEB_URL: local
       JWT_ACCESS_SECRET: hi
       AUTH_SERVER_ENDPOINT: https://gateway-server-new.dev-twin.world/auth/
