@@ -33,7 +33,7 @@ export class CreateProductCommentService {
       }
 
       // 2. Get 'ProfileImageMediaId' from auth server
-      // auth server가 비정상인 동안에는 상품 댓글이 생성되지 않는다.
+      // auth server 가 비정상인 동안에는 상품 댓글이 생성되지 않는다.
       const baseURL = process.env.AUTH_SERVER_ENDPOINT;
 
       const { data: body } = await firstValueFrom(
@@ -45,18 +45,16 @@ export class CreateProductCommentService {
       const { data } = body;
       const { imageMediaId } = data;
 
-      const authorProfileImageMediaId = imageMediaId;
-
       // 3. Create ProductComment
-      const producComment = ProductComment.create(
+      const productComment = ProductComment.create(
         userId,
         productId,
         content,
-        authorProfileImageMediaId,
+        imageMediaId,
       );
 
       // 4. Save ProductComment
-      return this.productCommentRepository.save(producComment);
+      return this.productCommentRepository.save(productComment);
     } catch (error: any) {
       throw new Error(error.message);
     }

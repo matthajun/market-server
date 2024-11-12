@@ -68,7 +68,7 @@ export class CreateProductsService {
    * @param userId
    * @return
    */
-  checkMediaOwner(uploaderId: string, userId: string): boolean {
+  private checkMediaOwner(uploaderId: string, userId: string): boolean {
     return uploaderId === userId;
   }
 }

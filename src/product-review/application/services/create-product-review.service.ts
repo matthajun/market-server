@@ -46,7 +46,7 @@ export class CreateProductReviewService {
 
     try {
       // 3. Get 'ProfileImageMediaId' from auth server
-      // auth server가 비정상인 동안에는 상품 리뷰가 생성되지 않는다.
+      // auth server 가 비정상인 동안에는 상품 리뷰가 생성되지 않는다.
       const baseURL = process.env.AUTH_SERVER_ENDPOINT;
 
       const { data: body } = await firstValueFrom(

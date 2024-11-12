@@ -22,15 +22,15 @@ export class DeleteProductCommentService {
     const { userId, commentId } = command;
 
     // 1. Find product-comment
-    const productCommet = await this.productCommentRepository.findOneById(
+    const productComment = await this.productCommentRepository.findOneById(
       commentId,
     );
-    if (!productCommet) {
+    if (!productComment) {
       throw new NotFoundException();
     }
 
     // 2. Check owner
-    const isOwned = productCommet.isOwned(userId);
+    const isOwned = productComment.isOwned(userId);
     if (!isOwned) {
       throw new ForbiddenException();
     }
@@ -38,6 +38,6 @@ export class DeleteProductCommentService {
     // 3. Delete
     await this.productCommentRepository.delete(commentId);
 
-    return productCommet;
+    return productComment;
   }
 }

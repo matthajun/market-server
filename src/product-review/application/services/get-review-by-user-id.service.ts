@@ -36,7 +36,7 @@ export class GetReviewByUserIdService {
       }
 
       // 2. Get 'ProfileImageMediaId' from auth server
-      // auth server가 비정상인 동안에는 작동하지 않는다.
+      // auth server 가 비정상인 동안에는 작동하지 않는다.
       const baseURL = process.env.AUTH_SERVER_ENDPOINT;
 
       const { data: body } = await firstValueFrom(

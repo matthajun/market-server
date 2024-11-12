@@ -111,7 +111,7 @@ export class GetSalesStatisticsRepository
     const queryResults = await this.repository.query(query);
 
     const productTrends = queryResults.map(
-      (queryResult) =>
+      (queryResult: { views: number; downloads: number; date: Date }) =>
         new SalesStatisticsTrend(
           queryResult.views,
           queryResult.downloads,
@@ -136,7 +136,7 @@ export class GetSalesStatisticsRepository
    * @param date
    * @return
    */
-  fromDateToString(date: Date): string {
+  private fromDateToString(date: Date): string {
     return date.toISOString().substring(0, 10);
   }
 
@@ -146,7 +146,7 @@ export class GetSalesStatisticsRepository
    * @param date
    * @returns
    */
-  toTomorrow(date: Date): Date {
+  private toTomorrow(date: Date): Date {
     const tomorrow = new Date(date);
     tomorrow.setDate(date.getDate() + 1);
 
@@ -160,7 +160,7 @@ export class GetSalesStatisticsRepository
    * @param endDate
    * @returns
    */
-  getProductTrendQuery({ sellerId, startDate, endDate }): string {
+  private getProductTrendQuery({ sellerId, startDate, endDate }): string {
     return `
     SELECT coalesce(view_table.date, download_table.date) AS date,
         coalesce(view_table.view, 0) AS views,
