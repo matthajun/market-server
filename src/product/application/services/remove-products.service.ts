@@ -21,7 +21,7 @@ export class RemoveProductsService {
       throw new NotFoundException(`There is no product (id=${productId})`);
     }
 
-    // 2. ckeck owner & get deletedAt
+    // 2. check owner & get deletedAt
     product.remove(userId);
 
     // 3. soft-delete products

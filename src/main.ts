@@ -47,14 +47,14 @@ async function bootstrap() {
     app.setGlobalPrefix('market');
     const API_DOC_PATH = configService.getOrThrow<string>('API_DOC_PATH');
     const swaggerConfig = new DocumentBuilder()
-        .addSecurity('bearer', {
-          type: 'http',
-          scheme: 'bearer',
-        })
-        .setTitle('market server')
-        .setDescription('market server API description')
-        .setVersion('0.1')
-        .build();
+      .addSecurity('bearer', {
+        type: 'http',
+        scheme: 'bearer',
+      })
+      .setTitle('market server')
+      .setDescription('market server API description')
+      .setVersion('0.1')
+      .build();
     const document = SwaggerModule.createDocument(app, swaggerConfig);
     SwaggerModule.setup(API_DOC_PATH, app, document);
 

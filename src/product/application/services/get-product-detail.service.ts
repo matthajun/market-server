@@ -33,7 +33,9 @@ export class GetProductDetailService {
     // 3. If exist token, then
     if (userId) {
       // a. View count Up
-      this.queryBus.execute(new CreateProductViewCommand(productId, userId));
+      await this.queryBus.execute(
+        new CreateProductViewCommand(productId, userId),
+      );
 
       // b. Set isLike about token user
       result.isLike = await this.queryBus.execute(

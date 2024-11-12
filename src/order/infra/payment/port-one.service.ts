@@ -31,10 +31,10 @@ export class PortOneService
   }
 
   /**
-   * 결제 서버 api를 통한 결제 정보 사전 검증
+   * 결제 서버 api 를 통한 결제 정보 사전 검증
    *
    * @see https://developers.portone.io/api/rest-v1/payment.validation#post%20%2Fpayments%2Fprepare
-   * @param {PreOrderProps}
+   * @param
    * @returns
    */
   async preOrder({ merchantUid, totalPrice }: Order): Promise<string> {
@@ -71,7 +71,7 @@ export class PortOneService
   }
 
   /**
-   * 결제 서버 api에 유효한 order인지 확인
+   * 결제 서버 api 에 유효한 order 인지 확인
    * @see https://developers.portone.io/docs/ko/auth/guide/5/post?v=v1
    * @param {Order}
    */
@@ -79,7 +79,7 @@ export class PortOneService
     const paymentAccessToken: string = await this.getPaymentAccessToken();
 
     try {
-      // imp_uid로 포트원 서버에서 결제 정보 조회
+      // imp_uid 로 포트원 서버에서 결제 정보 조회
       const paymentData = await firstValueFrom(
         this.httpService.get(
           `${this.config.PAYMENT_SERVER_API_ENDPOINT}/payments/${impUid}`,
@@ -110,7 +110,7 @@ export class PortOneService
   }
 
   /**
-   * 결제 서버 api에 필요한 인증 토큰
+   * 결제 서버 api 에 필요한 인증 토큰
    *
    * @see https://developers.portone.io/api/rest-v1/auth
    * @returns {string} access token
