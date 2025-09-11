@@ -56,118 +56,9 @@ Run `docker-compose-up -d`
 
 ## 데이터베이스 형상관리
 
-[liquibase](https://www.liquibase.org/)를 사용합니다.
+- `Liquibase` 를 사용합니다.
+  - [공식문서](https://www.liquibase.org/)
 
-### 스키마 변경 작업 방법
-
-#### 1. `.sql`파일 작성
-
-- 저장경로: `migrations/liquibase/changelog/<my-diff>.sql`
-
-_Example_: `migrations/liquibase/changelog/create-item.sql`
-
-```sql
---liquibase formatted sql
---changeset jasper.park:1
-CREATE SEQUENCE IF NOT EXISTS id_seq;
-
---changeset jasper.park:2
-CREATE TABLE "public"."item" (
-    "id" varchar NOT NULL DEFAULT nextval('id_seq'::regclass),
-    "name" varchar NOT NULL,
-    "createdAt" timestamp DEFAULT now(),
-    "updatedAt" timestamp DEFAULT now(),
-    "deletedAt" timestamp,
-    PRIMARY KEY ("id")
-);
-
---changeset jasper.park:3
-COMMENT ON COLUMN "public"."item"."id" IS '아이템 ID';
-COMMENT ON COLUMN "public"."item"."name" IS '아이템 이름';
-COMMENT ON COLUMN "public"."item"."createdAt" IS '생성일시';
-COMMENT ON COLUMN "public"."item"."updatedAt" IS '수정일시';
-COMMENT ON COLUMN "public"."item"."deletedAt" IS '삭제일시';
-```
-
-#### 2. changelog에 sql 추가
-
-> `migrations/liquibase/changelog/changelog.xml` 에 `.sql` 추가
-
-마이그레이션은 `changelog.xml` 파일 내용 내의 `<include file={파일명}/>` 순서대로 실행됩니다.
-
-_변경전 changelog.xml_
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog
-   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
-   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
-      http://www.liquibase.org/xml/ns/pro
-      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
-
-    <!-- more <include> tags go here -->
-</databaseChangeLog>
-```
-
-_변경후 changelog.xml_
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<databaseChangeLog
-   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
-   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
-      http://www.liquibase.org/xml/ns/pro
-      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
-
-    <include file="create-item.sql"/>
-    <!-- more <include> tags go here -->
-</databaseChangeLog>
-```
-
-#### 3. migration 실행
-
-Run `liquibase --defaults-file=migrations/liquibase/changelog/liquibase.properties update`
-
-_실행결과 성공예시_
-
-```sh
-2023-05-16 17:04:50 ####################################################
-2023-05-16 17:04:50 ##   _     _             _ _                      ##
-2023-05-16 17:04:50 ##  | |   (_)           (_) |                     ##
-2023-05-16 17:04:50 ##  | |    _  __ _ _   _ _| |__   __ _ ___  ___   ##
-2023-05-16 17:04:50 ##  | |   | |/ _` | | | | | '_ \ / _` / __|/ _ \  ##
-2023-05-16 17:04:50 ##  | |___| | (_| | |_| | | |_) | (_| \__ \  __/  ##
-2023-05-16 17:04:50 ##  \_____/_|\__, |\__,_|_|_.__/ \__,_|___/\___|  ##
-2023-05-16 17:04:50 ##              | |                               ##
-2023-05-16 17:04:50 ##              |_|                               ##
-2023-05-16 17:04:50 ##                                                ##
-2023-05-16 17:04:50 ##  Get documentation at docs.liquibase.com       ##
-2023-05-16 17:04:50 ##  Get certified courses at learn.liquibase.com  ##
-2023-05-16 17:04:50 ##                                                ##
-2023-05-16 17:04:50 ####################################################
-2023-05-16 17:04:50 Starting Liquibase at 08:04:50 (version 4.22.0 #9559 built at 2023-05-10 20:45+0000)
-2023-05-16 17:04:50 Liquibase Version: 4.22.0
-2023-05-16 17:04:50 Liquibase Open Source 4.22.0 by Liquibase
-2023-05-16 17:04:51 Running Changeset: create-item.sql::1::jasper.park
-2023-05-16 17:04:51 Running Changeset: create-item.sql::2::jasper.park
-2023-05-16 17:04:51 Running Changeset: create-item.sql::3::jasper.park
-2023-05-16 17:04:51
-2023-05-16 17:04:51 UPDATE SUMMARY
-2023-05-16 17:04:51 Run:                          3
-2023-05-16 17:04:51 Previously run:               0
-2023-05-16 17:04:51 Filtered out:                 0
-2023-05-16 17:04:51 -------------------------------
-2023-05-16 17:04:51 Total change sets:            3
-2023-05-16 17:04:51
-2023-05-16 17:04:51 Liquibase: Update has been successful.
-2023-05-16 17:04:51 Liquibase command 'update' was executed successfully.
-```
 
 ## External 결제 서버
 
@@ -194,11 +85,19 @@ $ pnpm run test
 
 # e2e tests
 $ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
 ```
 
-## License
+## Lint
+- TypeScript-ESLint 의 recommended rule 만 사용
+- 수동 실행
+  > $ yarn lint
 
-Nest is [MIT licensed](LICENSE).
+## Convention
+- 함수명과 변수명은 CamelCase 사용
+    - ex) getContents(), toUser
+- 인터페이스, 클래스, 타입은 PascalCase 사용
+    - ex) GetContentsService, ThemeRepositoryPort
+- 파일명은 KebabCase 사용
+    - ex) get-contents.ts
+- 테이블명은 SnakeCase 사용
+    - ex) order_read_model
